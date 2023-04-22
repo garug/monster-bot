@@ -3,6 +3,8 @@ import { unmarshall } from "@aws-sdk/util-dynamodb"
 import { client } from "../config.js";
 import { ActiveStatus } from "types/activeStatus.js";
 
+let inMemory = undefined
+
 async function update(pokemon?) {
   console.log("Inserting: ", pokemon)
   const response = await client.send(new PutItemCommand({
@@ -10,9 +12,13 @@ async function update(pokemon?) {
     "Item": pokemon ? mapToDynamoDB(pokemon) : emptyItem()
   }))
   console.log("Inserted:", response)
+  inMemory = undefined
 }
 
 async function getLast(): Promise<ActiveStatus> {
+  if (inMemory)
+    return inMemory
+
   const response = await client.send(new ScanCommand({
     TableName: "LastPokemonHistory",
     FilterExpression: "resolved_date = :defined",
@@ -29,7 +35,11 @@ async function getLast(): Promise<ActiveStatus> {
   if (!lastItem)
     return
 
-  return mapDynamoToActiveStatus(lastItem)
+  const status = mapDynamoToActiveStatus(lastItem)
+
+  inMemory = status
+
+  return status
 }
 
 function emptyItem() {
