@@ -11,8 +11,8 @@ async function update(pokemon?) {
     "TableName": "LastPokemonHistory",
     "Item": pokemon ? mapToDynamoDB(pokemon) : emptyItem()
   }))
-  console.log("Inserted:", response)
   inMemory = undefined
+  return response
 }
 
 async function getLast(): Promise<ActiveStatus> {
