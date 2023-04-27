@@ -1,7 +1,7 @@
 import { EmbedBuilder, Message } from "discord.js";
-import activeStatus from "infra/dynamodb/adapters/activeStatus.js";
-import ownedpokemon from "infra/mongodb/adapters/ownedpokemon.js";
-import prestige from "infra/mongodb/adapters/prestige.js";
+import activeStatus, { resolveStatus } from "../../dynamodb/adapters/activeStatus.js";
+import ownedpokemon from "../../mongodb/adapters/ownedpokemon.js";
+import prestige from "../../mongodb/adapters/prestige.js";
 import { ActivePokemon } from "types/activeStatus.js";
 import mainChannel from "./mainChannel.js";
 
@@ -11,6 +11,7 @@ export async function handleMessage(message: Message) {
 
   if (m === last.pokemon?.name.toLocaleLowerCase()) {
     catchPokemon(last.pokemon, message.author.id)
+    resolveStatus(last.date.getTime().toString())
   }
 }
 

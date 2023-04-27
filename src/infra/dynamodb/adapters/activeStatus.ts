@@ -6,7 +6,6 @@ import { ActiveStatus } from "types/activeStatus.js";
 let inMemory = undefined
 
 async function update(pokemon?) {
-  console.log("Inserting: ", pokemon)
   const response = await client.send(new PutItemCommand({
     "TableName": "LastPokemonHistory",
     "Item": pokemon ? mapToDynamoDB(pokemon) : emptyItem()

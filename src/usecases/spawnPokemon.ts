@@ -2,9 +2,9 @@ import axios from "axios"
 import { EmbedBuilder } from "discord.js";
 import isEqual from "lodash.isequal"
 import random from "lodash.random"
-import mainChannel from "infra/discord/adapters/mainChannel.js";
-import activeStatus from "infra/dynamodb/adapters/activeStatus.js";
-import { client } from "infra/mongodb/config.js";
+import mainChannel from "../infra/discord/adapters/mainChannel.js";
+import activeStatus from "../infra/dynamodb/adapters/activeStatus.js";
+import { client } from "../infra/mongodb/config.js";
 
 export default async () => {
   const sorted = await sort()
