@@ -6,6 +6,9 @@ import { ActivePokemon } from "types/activeStatus.js";
 import mainChannel from "./mainChannel.js";
 
 export async function handleMessage(message: Message) {
+  if (message.content.split(" ").length > 1)
+    return
+
   const last = await activeStatus.getLast()
   const m = message.content.toLowerCase()
 
