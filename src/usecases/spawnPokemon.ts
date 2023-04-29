@@ -73,7 +73,9 @@ function infoSort(possibities) {
       return total;
     });
 
-  const index = usedPossibilities.findIndex((n) => n >= random(1, total));
+
+  const sort = random(1, total)
+  const index = usedPossibilities.findIndex((n) => n >= sort);
 
   const sorted = possibities[index];
 
