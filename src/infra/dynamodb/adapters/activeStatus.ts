@@ -1,54 +1,48 @@
-import { ScanCommand, PutItemCommand, UpdateItemCommand } from "@aws-sdk/client-dynamodb"
+import { PutItemCommand, DeleteItemCommand, QueryCommand } from "@aws-sdk/client-dynamodb"
 import { unmarshall } from "@aws-sdk/util-dynamodb"
 import { client } from "../config.js";
 import { ActiveStatus } from "types/activeStatus.js";
 
-let inMemory = undefined
-
 async function update(pokemon?) {
   const response = await client.send(new PutItemCommand({
-    "TableName": "LastPokemonHistory",
-    "Item": pokemon ? mapToDynamoDB(pokemon) : emptyItem()
+    "TableName": "ServerActiveMonster",
+    "Item": { ...emptyItem(), ...mapToDynamoDB(pokemon) }
   }))
-  inMemory = undefined
   return response
 }
 
 async function getLast(): Promise<ActiveStatus> {
-  if (inMemory)
-    return inMemory
-
-  const response = await client.send(new ScanCommand({
-    TableName: "LastPokemonHistory",
-    FilterExpression: "resolved_date = :defined",
+  const response = await client.send(new QueryCommand({
+    TableName: "ServerActiveMonster",
     Select: "ALL_ATTRIBUTES",
+    KeyConditionExpression: "server_id = :defined",
     ExpressionAttributeValues: {
       ":defined": {
-        "N": "0"
+        "S": "1"
       }
     }
   }))
 
   const lastItem = response.Items?.at(0)
 
-  if (!lastItem)
-    return
+  if (!lastItem) {
+    console.warn("Unsubscribed server tries to get pokemon")
+    return {
+      date: new Date()
+    }
+  }
 
-  const status = mapDynamoToActiveStatus(lastItem)
-
-  inMemory = status
-
-  return status
+  return mapDynamoToActiveStatus(lastItem)
 }
 
 function emptyItem() {
   return {
-    "date": {
+    "server_id": {
+      "S": "1"
+    },
+    "interaction_timestamp": {
       "N": String(new Date().getTime())
     },
-    "resolved_date": {
-      "N": "0"
-    }
   }
 }
 
@@ -56,7 +50,7 @@ function mapDynamoToActiveStatus(entry): ActiveStatus {
   const e = unmarshall(entry)
 
   const status: ActiveStatus = {
-    date: new Date(e.date),
+    date: new Date(e.interaction_timestamp),
   }
 
   if (e.name)
@@ -81,41 +75,24 @@ function mapDynamoToActiveStatus(entry): ActiveStatus {
 }
 
 function mapToDynamoDB(pokemon): any {
-  return {
-    date: { N: String(new Date().getTime()) },
-    chance: { N: String(pokemon.chance.toString()) },
-    id: { N: String(pokemon.id.toString()) },
-    name: { S: pokemon.name },
-    shiny: { BOOL: String(pokemon.shiny) },
-    resolved_date: { N: "0" },
-    stats: {
-      L: pokemon.stats.map(s => {
-        return {
-          M: {
-            name: { S: s.stat.name },
-            value: { N: String(s.base_stat) }
+  return pokemon ?
+    {
+      chance: { N: String(pokemon.chance.toString()) },
+      id: { N: String(pokemon.id.toString()) },
+      name: { S: pokemon.name },
+      shiny: { BOOL: String(pokemon.shiny) },
+      stats: {
+        L: pokemon.stats.map(s => {
+          return {
+            M: {
+              name: { S: s.stat.name },
+              value: { N: String(s.base_stat) }
+            }
           }
-        }
-      })
-    }
-  }
-}
-
-export function resolveStatus(asOf: string) {
-  return client.send(new UpdateItemCommand({
-    "TableName": "LastPokemonHistory",
-    "Key": {
-      "date": {
-        "N": asOf
+        })
       }
-    },
-    "UpdateExpression": "SET resolved_date = :myValueRef",
-    "ExpressionAttributeValues": {
-      ":myValueRef": {
-        "N": new Date().getTime().toString()
-      }
-    }
-  }))
+    } :
+    {}
 }
 
 export default {
