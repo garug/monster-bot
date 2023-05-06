@@ -42,7 +42,7 @@ jobs:
         envkey_AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
         envkey_AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     - name: Move .env file
-      run: cp .env ./env
+      run: cp .env ./.env
     - uses: actions/download-artifact@v3
       with:
         name: artifact
