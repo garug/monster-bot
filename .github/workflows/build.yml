@@ -44,6 +44,11 @@ jobs:
     - uses: actions/download-artifact@v3
       with:
         name: artifact
-    - name: Display structure of downloaded files
-      run: ls -R -a
+    - name: Login in VPS
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        script: whoami
 
