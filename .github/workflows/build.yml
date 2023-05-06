@@ -32,6 +32,7 @@ jobs:
     - name: Make `.env` file
       uses: SpicyPizza/create-envfile@v1.3
       with:
+        directory: ./
         envkey_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
         envkey_DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
         envkey_DISCORD_CLIENT_SECRET: ${{ secrets.DISCORD_CLIENT_SECRET }}
