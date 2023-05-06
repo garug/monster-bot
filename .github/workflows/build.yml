@@ -13,7 +13,6 @@ jobs:
         cache-dependency-path: yarn.lock
     - run: yarn
     - run: yarn build
-  publish:
-    uses: actions/upload-artifact@v3.1.2
-    with:
-      path: path/abc
+    - uses: actions/upload-artifact@v3.1.2
+      with:
+        path: path/abc
