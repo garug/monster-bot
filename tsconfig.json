@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "diagnostics": true,
+    "noEmit": true,
+    "skipLibCheck": true,
     "module": "NodeNext",
     "moduleResolution": "nodenext",
     "target": "ES2020",
