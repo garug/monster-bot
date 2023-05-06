@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "diagnostics": true,
-    "noEmit": true,
     "skipLibCheck": true,
     "module": "NodeNext",
     "moduleResolution": "nodenext",
