@@ -1,0 +1,12 @@
+services:
+  app:
+    build: .
+    ports:
+    - "8081:8081"
+    restart: on-failure
+  nginx:
+    build: ./project/nginx
+    ports:
+    - "80:80"
+    depends_on:
+    - app
