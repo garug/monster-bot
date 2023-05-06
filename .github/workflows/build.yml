@@ -11,20 +11,35 @@ jobs:
         node-version: 18
         cache: 'yarn'
         cache-dependency-path: yarn.lock
-    - run: yarn
-    - run: yarn build
+    - name: Download dependencies
+      run: yarn
+    - name: Build project
+      run: yarn build
     - uses: actions/upload-artifact@v3.1.2
       with:
         name: artifact
         path: |
+          ./project
+          ./Dockerfile
+          ./docker-compose.yml
           ./package.json
           ./yarn.lock
           ./dist
-          !**/node_modules
   publish:
     needs: build
     runs-on: ubuntu-latest
     steps:
+    - name: Make `.env` file
+      uses: SpicyPizza/create-envfile@v1.3
+      with:
+        envkey_DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+        envkey_DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
+        envkey_DISCORD_CLIENT_SECRET: ${{ secrets.DISCORD_CLIENT_SECRET }}
+        envkey_DB_MONGO_URL: ${{ secrets.DB_MONGO_URL }}
+        envkey_FRONTEND_URL: ${{ variables.FRONTEND_URL }}
+        envkey_CALLABLE_POKEMON: ${{ variables.CALLABLE_POKEMON }}
+        envkey_AWS_ACCESS_KEY_ID: ${{ variables.AWS_ACCESS_KEY_ID }}
+        envkey_AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     - uses: actions/download-artifact@v3
       with:
         name: artifact
