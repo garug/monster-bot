@@ -44,11 +44,21 @@ jobs:
     - uses: actions/download-artifact@v3
       with:
         name: artifact
-    - name: Login in VPS
+    - name: Move Files to VPS
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        source: "./"
+        target: "/usr/apps/monster-bot"
+    - name: Deploy changes
       uses: appleboy/ssh-action@v0.1.10
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
-        script: whoami
+        script: |
+          cd /usr/apps/monster-bot
+          docker-compose up -d
 
