@@ -15,4 +15,8 @@ jobs:
     - run: yarn build
     - uses: actions/upload-artifact@v3.1.2
       with:
-        path: /home/runner/work/monster-bot/monster-bot
+        path: |
+          /home/runner/work/monster-bot/monster-bot/dist
+          /home/runner/work/monster-bot/monster-bot/package.json
+          /home/runner/work/monster-bot/monster-bot/yarn.lock
+          !**/node_modules
