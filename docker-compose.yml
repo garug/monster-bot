@@ -14,12 +14,12 @@ services:
     - "443:443"
     volumes:
       - ./project/nginx:/etc/nginx/conf.d/:ro
-      - ./project/certbot/www:/var/www/certbot/:ro
+      - ./project/certbot/www/:/var/www/certbot/:ro
       - ./project/certbot/conf/:/etc/nginx/ssl/:ro
     depends_on:
     - app
   certbot:
     image: certbot/certbot:latest
     volumes:
-    - ./project/certbot/www/:/var/www/cerbot/:rw
+    - ./project/certbot/www/:/var/www/certbot/:rw
     - ./project/certbot/conf/:/etc/letsencrypt/:rw
