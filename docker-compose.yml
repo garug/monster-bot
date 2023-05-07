@@ -20,5 +20,5 @@ services:
   certbot:
     image: certbot/certbot:latest
     volumes:
-    - ./certbot/www/:/var/www/cerbot/:rw
-    - ./certbot/conf/:/etc/letsencrypt/:rw
+    - ./project/certbot/www/:/var/www/cerbot/:rw
+    - ./project/certbot/conf/:/etc/letsencrypt/:rw
