@@ -15,6 +15,7 @@ services:
     volumes:
       - ./project/nginx:/etc/nginx/conf.d/:ro
       - ./project/certbot/www:/var/www/certbot/:ro
+      - ./project/certbot/conf/:/etc/nginx/ssl/:ro
     depends_on:
     - app
   certbot:
