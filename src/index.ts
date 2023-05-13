@@ -1,7 +1,7 @@
 import "dotenv/config"
 import express from "express";
 import { routes } from "./routes.js";
-import MongoDatabase from "infra/mongodb/config.js";
+import MongoDatabase from "./infra/mongodb/config.js";
 
 const app = express()
 

@@ -4,7 +4,7 @@ import doSpawnPokemon from "./middlewares/doSpawnPokemon.js"
 import setLastStatus from "./middlewares/setLastStatus.js"
 import testAction from "./middlewares/testAction.js"
 import testActivePokemon from "./middlewares/testActivePokemon.js"
-import reloadSlashCommands from "middlewares/reloadSlashCommands.js"
+import reloadSlashCommands from "./middlewares/reloadSlashCommands.js"
 
 export const routes = Router()
 

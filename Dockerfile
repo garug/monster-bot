@@ -10,7 +10,7 @@ COPY package.json yarn.lock .env ./
 # `tsc` uses more memory than I have on my vps laughing but crying
 ADD dist ./dist
 
-RUN yarn install --frozen-lockfile
+ADD node_modules ./node_modules
 
 # Run app
 CMD ["yarn", "start"]

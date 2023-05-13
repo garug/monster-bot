@@ -1,4 +1,4 @@
-import OwnedPokemon from "infra/mongodb/models/OwnedPokemon.js";
+import OwnedPokemon from "../../../mongodb/models/OwnedPokemon.js";
 import { Page, Pageable, PokemonFilters } from "./types.js";
 import { FilterQuery, PipelineStage } from "mongoose";
 

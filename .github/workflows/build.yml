@@ -25,6 +25,7 @@ jobs:
           ./package.json
           ./yarn.lock
           ./dist
+          ./node_modules
   publish:
     needs: build
     runs-on: ubuntu-latest
@@ -60,5 +61,6 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         script: |
           cd /usr/apps/monster-bot
-          docker-compose up -d
+          docker-compose build --no-cache
+          docker-compose up --force-recreate -d
 

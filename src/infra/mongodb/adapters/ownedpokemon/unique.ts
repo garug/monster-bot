@@ -1,5 +1,5 @@
 import { PipelineStage } from "mongoose";
-import OwnedPokemon from "infra/mongodb/models/OwnedPokemon.js";
+import OwnedPokemon from "../../../mongodb/models/OwnedPokemon.js";
 
 export default async function(user: string) {
   const match: PipelineStage = { $match: {} };

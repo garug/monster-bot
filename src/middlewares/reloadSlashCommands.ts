@@ -1,8 +1,8 @@
 import { Request, Response } from "express"
-import { deployCommands } from "infra/discord/config_commands.js"
+import reloadSlashCommands from "../usecases/reloadSlashCommands.js"
 
 export default async (_req: Request, res: Response) => {
-  await deployCommands()
+  await reloadSlashCommands()
 
   return res.status(200).send()
 }

@@ -1,6 +1,6 @@
 import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import { ServerCommand } from "../config_commands.js";
-import ownedpokemon from "infra/mongodb/adapters/ownedpokemon.js";
+import ownedpokemon from "../../mongodb/adapters/ownedpokemon.js";
 
 const name = "dex"
 

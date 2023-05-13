@@ -5,7 +5,7 @@
     "module": "NodeNext",
     "moduleResolution": "nodenext",
     "target": "ES2020",
-    "sourceMap": true,
+    "sourceMap": false,
     "outDir": "dist",
     "baseUrl": "src",
   },
