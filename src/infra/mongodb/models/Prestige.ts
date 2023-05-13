@@ -1,7 +1,5 @@
 import { Document, model, Schema } from "mongoose";
 
-import { TierName } from "../managers/tier";
-
 export interface Prestige extends Document {
   user: string;
   id_dex: number;

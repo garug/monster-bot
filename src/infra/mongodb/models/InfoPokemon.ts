@@ -1,6 +1,6 @@
 import { Document, model, Schema } from "mongoose";
-import { BasicTier } from "../managers/tier";
 import { v4 } from "uuid";
+import { BasicTier } from "../adapters/tier.js";
 
 export interface InfoPokemon extends Document {
   id_dex: number;
