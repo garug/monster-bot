@@ -14,6 +14,6 @@ client.login(process.env.DISCORD_TOKEN).then(() => {
   console.log("Logged in!");
 });
 
-// client.on("messageCreate", handleMessage)
+client.on(Events.MessageCreate, handleMessage)
 
 client.on(Events.InteractionCreate, handleInteractionCreate)
